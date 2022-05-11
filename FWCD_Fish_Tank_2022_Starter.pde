@@ -7,7 +7,7 @@ void setup() {
   mhs = loadImage("capitol.jpg"); 
   fullScreen(P2D);
   mhs.resize(width, height-SAND_HEIGHT);
-  smooth();
+  smooth(8);
 
   ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2);
   //put your object in fish tank list named objs using the model below.

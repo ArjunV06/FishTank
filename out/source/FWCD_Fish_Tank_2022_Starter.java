@@ -30,7 +30,7 @@ public void setup() {
  // objs.add( new YOUROBJECT() );
   objs.add(test);
   
-   
+  
 }
 
 
@@ -118,7 +118,7 @@ class ArjunVasudevanFish extends AnimatedObject
         yPos=yPos_;
         //angle=0;
         //radius=80;
-        seekers = new Seekers(30,150,width/2,height/2,8);
+        seekers = new Seekers(30,150,width/2,height/2,12);
         
     }
 
@@ -245,7 +245,7 @@ class Seekers
         angle++;
     }
 }
-  public void settings() {  fullScreen(P2D);  smooth(); }
+  public void settings() {  fullScreen(P2D);  smooth(8); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "FWCD_Fish_Tank_2022_Starter" };
     if (passedArgs != null) {
