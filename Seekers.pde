@@ -1,7 +1,8 @@
 class Seekers
 {
     ArrayList<Seeker> seekers;
-    int angle=0, xOffset, yOffset;
+    int xOffset, yOffset;
+    float angle=1;
 
     Seekers(int size_, int radius_, int xOffset_, int yOffset_, int amount)
     {
@@ -22,14 +23,37 @@ class Seekers
         }
     }
 
+    void updateRadius(int radius_)
+    {
+        for (int i = seekers.size() - 1; i>= 0; i--)
+        {   
+            Seeker quick = seekers.get(i);
+                
+            quick.updateRadius(radius_);
+        } 
+    }
+
+    void update(int xOffset_, int yOffset_)
+    {
+        for (int i = seekers.size() - 1; i>= 0; i--)
+        {
+            Seeker quick = seekers.get(i);
+            
+           
+            quick.update(angle, xOffset_, yOffset_);
+        }
+       
+    }
+
     void display()
     {
         for (int i = seekers.size() - 1; i>= 0; i--)
         {
             Seeker quick = seekers.get(i);
             quick.display();
-            quick.update(angle, xOffset, yOffset);
+           
+            
         }
-        angle++;
+       
     }
 }

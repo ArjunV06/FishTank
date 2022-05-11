@@ -9,7 +9,7 @@ void setup() {
   mhs.resize(width, height-SAND_HEIGHT);
   smooth(8);
 
-  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2);
+  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2,int(10*PI),120,width/2,height/2,12);
   //put your object in fish tank list named objs using the model below.
  // objs.add( new YOUROBJECT() );
   objs.add(test);

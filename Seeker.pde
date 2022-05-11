@@ -7,11 +7,11 @@ class Seeker
     int xOffset;
     int yOffset;
     int radius;
-    int angle;
+    float angle;
     
     int r, g, b;
 
-    Seeker(int size_, int angle_, int radius_, int xOffset_, int yOffset_, int r_, int g_, int b_)
+    Seeker(int size_, float angle_, int radius_, int xOffset_, int yOffset_, int r_, int g_, int b_)
     {
         size = size_;
         radius=radius_;
@@ -37,8 +37,14 @@ class Seeker
         popStyle();
     }
 
-    void update(int angle_, int xOffset_, int yOffset_)
+    void updateRadius(int radius_)
     {
+        radius=radius_;
+    }
+
+    void update(float angle_, int xOffset_, int yOffset_)
+    {
+        angle+=angle_;
         xOffset=xOffset_;
         yOffset=yOffset_;
         xPos=cos(radians(angle));
@@ -47,11 +53,12 @@ class Seeker
         yPos*=radius;
         xPos+=xOffset;
         yPos+=yOffset;
-        angle+=angle_;
+        //println(angle);
+        
         
     }
 
-    int getAngle()
+    float getAngle()
     {
         return angle;
     }

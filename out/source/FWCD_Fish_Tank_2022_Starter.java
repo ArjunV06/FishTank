@@ -25,7 +25,7 @@ public void setup() {
   mhs.resize(width, height-SAND_HEIGHT);
   
 
-  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2);
+  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2,PApplet.parseInt(10*PI),120,width/2,height/2,12);
   //put your object in fish tank list named objs using the model below.
  // objs.add( new YOUROBJECT() );
   objs.add(test);
@@ -111,14 +111,25 @@ class ArjunVasudevanFish extends AnimatedObject
 {
     int xPos, yPos;
     Seekers seekers;
+    int smallest,largest;
+    int currentBreathe=0;
+    boolean shrinking=true, active=true; //getting smaller
+    int radius;
     //int angle,radius;
-    ArjunVasudevanFish(int xPos_, int yPos_)
+    ArjunVasudevanFish(int xPos_, int yPos_, int size_, int radius_, int xOffset_, int yOffset_, int amount)
     {
         xPos=xPos_;
         yPos=yPos_;
+        radius=radius_;
         //angle=0;
         //radius=80;
-        seekers = new Seekers(30,150,width/2,height/2,12);
+        seekers = new Seekers(size_, radius_, xOffset_, yOffset_ ,amount);
+        //formula for max amnt
+        //(radius*2/(SIZE/PI)) = max for when size is 30
+        smallest=(radius)/(size_/amount);
+        largest=radius+50;
+        
+        
         
     }
 
@@ -138,8 +149,76 @@ class ArjunVasudevanFish extends AnimatedObject
         //circleY+=yPos;
         //ellipse(circleX,circleY,30,30);
         //println(angle,circleX,circleY);
+        seekers.update(this.getX(),this.getY());
         seekers.display();
+        seekers.updateRadius(this.breathe(smallest, largest));
+        if(keyPressed)
+        {
+            active=!active;
+            
+        }
+        println(active,this.isReady());
 
+        
+
+    }
+    public boolean isReady()
+    {   if(!active)
+        {
+            return(this.breathe(smallest, largest)==radius);
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+    public int breathe(int smallest_, int largest_)
+    {
+        if(frameCount%1==0)
+        {
+            if(currentBreathe==0)
+            {
+                currentBreathe=radius;
+            }
+            if(shrinking && active)
+            {
+                if(currentBreathe>smallest_)
+                {
+                    currentBreathe--;
+                }
+                else 
+                {
+                    shrinking=!shrinking;
+                }
+            
+            }
+            if(!shrinking && active)
+            {
+                if(currentBreathe<largest_)
+                {
+                    currentBreathe++;
+                }
+                else
+                {
+                    shrinking=!shrinking;
+                }
+            }
+            if(!active)
+            {
+                if(currentBreathe<radius)
+                {
+                    currentBreathe++;
+                }
+                else if(currentBreathe>radius)
+                {
+                    currentBreathe--;
+                } 
+            }
+            
+        }
+        
+        return currentBreathe;
     }
     public int getX()
     {
@@ -159,11 +238,11 @@ class Seeker
     int xOffset;
     int yOffset;
     int radius;
-    int angle;
+    float angle;
     
     int r, g, b;
 
-    Seeker(int size_, int angle_, int radius_, int xOffset_, int yOffset_, int r_, int g_, int b_)
+    Seeker(int size_, float angle_, int radius_, int xOffset_, int yOffset_, int r_, int g_, int b_)
     {
         size = size_;
         radius=radius_;
@@ -189,8 +268,14 @@ class Seeker
         popStyle();
     }
 
-    public void update(int angle_, int xOffset_, int yOffset_)
+    public void updateRadius(int radius_)
     {
+        radius=radius_;
+    }
+
+    public void update(float angle_, int xOffset_, int yOffset_)
+    {
+        angle+=angle_;
         xOffset=xOffset_;
         yOffset=yOffset_;
         xPos=cos(radians(angle));
@@ -199,11 +284,12 @@ class Seeker
         yPos*=radius;
         xPos+=xOffset;
         yPos+=yOffset;
-        angle+=angle_;
+        //println(angle);
+        
         
     }
 
-    public int getAngle()
+    public float getAngle()
     {
         return angle;
     }
@@ -213,7 +299,8 @@ class Seeker
 class Seekers
 {
     ArrayList<Seeker> seekers;
-    int angle=0, xOffset, yOffset;
+    int xOffset, yOffset;
+    float angle=1;
 
     Seekers(int size_, int radius_, int xOffset_, int yOffset_, int amount)
     {
@@ -234,15 +321,38 @@ class Seekers
         }
     }
 
+    public void updateRadius(int radius_)
+    {
+        for (int i = seekers.size() - 1; i>= 0; i--)
+        {   
+            Seeker quick = seekers.get(i);
+                
+            quick.updateRadius(radius_);
+        } 
+    }
+
+    public void update(int xOffset_, int yOffset_)
+    {
+        for (int i = seekers.size() - 1; i>= 0; i--)
+        {
+            Seeker quick = seekers.get(i);
+            
+           
+            quick.update(angle, xOffset_, yOffset_);
+        }
+       
+    }
+
     public void display()
     {
         for (int i = seekers.size() - 1; i>= 0; i--)
         {
             Seeker quick = seekers.get(i);
             quick.display();
-            quick.update(angle, xOffset, yOffset);
+           
+            
         }
-        angle++;
+       
     }
 }
   public void settings() {  fullScreen(P2D);  smooth(8); }
