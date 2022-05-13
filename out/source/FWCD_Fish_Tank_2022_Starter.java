@@ -25,7 +25,7 @@ public void setup() {
   mhs.resize(width, height-SAND_HEIGHT);
   
 
-  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2,PApplet.parseInt(10*PI),120,width/2,height/2,12);
+  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2,PApplet.parseInt(10*PI),120,width/2,height/2,8);
   //put your object in fish tank list named objs using the model below.
  // objs.add( new YOUROBJECT() );
   objs.add(test);
@@ -175,7 +175,7 @@ class ArjunVasudevanFish extends AnimatedObject
     }
     public int breathe(int smallest_, int largest_)
     {
-        if(frameCount%1==0)
+        if(frameCount%6==0)
         {
             if(currentBreathe==0)
             {
