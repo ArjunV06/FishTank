@@ -5,7 +5,7 @@ int SAND_HEIGHT = 120;
 
 void setup() {
   mhs = loadImage("capitol.jpg"); 
-  fullScreen(P2D);
+  fullScreen();
   mhs.resize(width, height-SAND_HEIGHT);
   smooth(8);
 
@@ -60,6 +60,6 @@ void drawTankBackground() {
       stroke(red(topColor)-i*rDiff,green(topColor)-i*gDiff, blue(topColor)-i*bDiff);
       line(0, height-SAND_HEIGHT+i, width, height-SAND_HEIGHT+i);
   }
-
+  //test
  
 }

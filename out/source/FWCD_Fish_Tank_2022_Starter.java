@@ -76,7 +76,7 @@ public void drawTankBackground() {
       stroke(red(topColor)-i*rDiff,green(topColor)-i*gDiff, blue(topColor)-i*bDiff);
       line(0, height-SAND_HEIGHT+i, width, height-SAND_HEIGHT+i);
   }
-
+  //test
  
 }
 /** An abstract class for animated objects */
@@ -175,7 +175,7 @@ class ArjunVasudevanFish extends AnimatedObject
     }
     public int breathe(int smallest_, int largest_)
     {
-        if(frameCount%1==0)
+        if(frameCount%6==0)
         {
             if(currentBreathe==0)
             {
@@ -355,7 +355,7 @@ class Seekers
        
     }
 }
-  public void settings() {  fullScreen(P2D);  smooth(8); }
+  public void settings() {  fullScreen();  smooth(8); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "FWCD_Fish_Tank_2022_Starter" };
     if (passedArgs != null) {
