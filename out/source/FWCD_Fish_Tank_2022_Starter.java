@@ -25,7 +25,7 @@ public void setup() {
   mhs.resize(width, height-SAND_HEIGHT);
   
 
-  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2,PApplet.parseInt(10*PI),120,width/2,height/2,8);
+  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2,PApplet.parseInt(6*PI),100,width/2,height/2,15);
   //put your object in fish tank list named objs using the model below.
  // objs.add( new YOUROBJECT() );
   objs.add(test);
@@ -44,9 +44,10 @@ public void draw() {
   drawTankBackground();                    
  
   PVector[] locations = new PVector[objs.size()];
-  for (int i=0; i<objs.size(); i++) {
-      AnimatedObject obj = objs.get(i);
-      locations[i] = new PVector(obj.getX(), obj.getY());
+  for (int i=0; i<objs.size(); i++) 
+  {
+    AnimatedObject obj = objs.get(i);
+    locations[i] = new PVector(obj.getX(), obj.getY());
   }
 
   for (AnimatedObject ao: objs) {
@@ -127,6 +128,7 @@ class ArjunVasudevanFish extends AnimatedObject
         //formula for max amnt
         //(radius*2/(SIZE/PI)) = max for when size is 30
         smallest=(radius)/(size_/amount);
+        smallest=60;
         largest=radius+50;
         
         
@@ -137,10 +139,9 @@ class ArjunVasudevanFish extends AnimatedObject
     {
         
         rectMode(CENTER);
-        rect(xPos,yPos,50,50);
+        ellipse(xPos,yPos,20,20);
         //angle+=3;
-        xPos=mouseX;
-        yPos=mouseY;
+       
         //float circleX=cos(radians(angle));
         //float circleY=sin(radians(angle));
         //circleX*=radius;
@@ -151,19 +152,62 @@ class ArjunVasudevanFish extends AnimatedObject
         //println(angle,circleX,circleY);
         seekers.update(this.getX(),this.getY());
         seekers.display();
-        seekers.updateRadius(this.breathe(smallest, largest));
-        if(keyPressed)
-        {
-            active=!active;
-            
-        }
-        println(active,this.isReady());
+        seekers.breathe(smallest,largest);
+       
+        //println(active,this.isReady());
 
         
 
     }
+
+    public int getX()
+    {
+        return xPos;
+    }
+    public int getY()
+    {
+        return yPos;
+    }
+}
+class Seeker
+{
+    
+    int size;
+    float xPos;
+    float yPos;
+    int xOffset;
+    int yOffset;
+    int radius;
+    float angle;
+    boolean shrinking=true, active=true;
+    int r, g, b;
+    int smallest,largest;
+    int currentBreathe=0;
+    int seekXpos,seekYpos;
+  
+
+    Seeker(int size_, float angle_, int radius_, int xOffset_, int yOffset_, int r_, int g_, int b_)
+    {
+        size = size_;
+        radius=radius_;
+        xPos=cos(radians(angle_));
+        yPos=sin(radians(angle_));
+        xPos*=radius_;
+        yPos*=radius_;
+        xOffset=xOffset_;
+        yOffset=yOffset_;
+        angle = angle_;
+        r=r_;
+        g=g_;
+        b=b_;
+        smallest=60;
+        largest=radius+50;
+        
+
+    }
     public boolean isReady()
-    {   if(!active)
+    {   
+        if(!active)
         {
             return(this.breathe(smallest, largest)==radius);
         }
@@ -175,7 +219,7 @@ class ArjunVasudevanFish extends AnimatedObject
     }
     public int breathe(int smallest_, int largest_)
     {
-        if(frameCount%6==0)
+        if(0==0)
         {
             if(currentBreathe==0)
             {
@@ -220,51 +264,21 @@ class ArjunVasudevanFish extends AnimatedObject
         
         return currentBreathe;
     }
-    public int getX()
-    {
-        return xPos;
-    }
-    public int getY()
-    {
-        return yPos;
-    }
-}
-class Seeker
-{
-    
-    int size;
-    float xPos;
-    float yPos;
-    int xOffset;
-    int yOffset;
-    int radius;
-    float angle;
-    
-    int r, g, b;
 
-    Seeker(int size_, float angle_, int radius_, int xOffset_, int yOffset_, int r_, int g_, int b_)
-    {
-        size = size_;
-        radius=radius_;
-        xPos=cos(radians(angle_));
-        yPos=sin(radians(angle_));
-        xPos*=radius_;
-        yPos*=radius_;
-        xOffset=xOffset_;
-        yOffset=yOffset_;
-        angle = angle_;
-        r=r_;
-        g=g_;
-        b=b_;
-        
-
-    }
-
+   
     public void display()
     {
         pushStyle();
         fill(r,g,b);
-        ellipse(xPos,yPos,size,size);
+        if(active)
+        {
+            ellipse(xPos,yPos,size,size);
+        }
+        else
+        {
+            ellipse(seekXpos, seekYpos, size, size);
+        }
+        
         popStyle();
     }
 
@@ -301,13 +315,16 @@ class Seekers
     ArrayList<Seeker> seekers;
     int xOffset, yOffset;
     float angle=1;
-
+    int smallest,largest;
+    int currentBreathe=0;
     Seekers(int size_, int radius_, int xOffset_, int yOffset_, int amount)
     {
         seekers = new ArrayList<Seeker>();
         int angleOffset=360/amount;
         xOffset=xOffset_;
         yOffset=yOffset_;
+        smallest=60;
+        largest=radius_+50;
         for(int i = 0; i<amount; i++)
         {
             seekers.add(new Seeker(size_, i*angleOffset, radius_, xOffset_, yOffset_, PApplet.parseInt(random(170,242)),PApplet.parseInt(random(10)),PApplet.parseInt(random(10))));
@@ -342,6 +359,17 @@ class Seekers
         }
        
     }
+    public void breathe(int smallest_, int largest_)
+    {
+        for (int i = seekers.size() - 1; i>= 0; i--)
+        {
+            Seeker quick = seekers.get(i);
+            
+           
+            quick.updateRadius(quick.breathe(smallest_,largest_));
+        }
+       
+    }
 
     public void display()
     {
@@ -355,7 +383,7 @@ class Seekers
        
     }
 }
-  public void settings() {  fullScreen();  smooth(8); }
+  public void settings() {  size(1920,1080,P2D);  smooth(8); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "FWCD_Fish_Tank_2022_Starter" };
     if (passedArgs != null) {

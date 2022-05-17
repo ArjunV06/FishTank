@@ -18,6 +18,7 @@ class ArjunVasudevanFish extends AnimatedObject
         //formula for max amnt
         //(radius*2/(SIZE/PI)) = max for when size is 30
         smallest=(radius)/(size_/amount);
+        smallest=60;
         largest=radius+50;
         
         
@@ -28,10 +29,9 @@ class ArjunVasudevanFish extends AnimatedObject
     {
         
         rectMode(CENTER);
-        rect(xPos,yPos,50,50);
+        ellipse(xPos,yPos,20,20);
         //angle+=3;
-        xPos=mouseX;
-        yPos=mouseY;
+       
         //float circleX=cos(radians(angle));
         //float circleY=sin(radians(angle));
         //circleX*=radius;
@@ -42,75 +42,14 @@ class ArjunVasudevanFish extends AnimatedObject
         //println(angle,circleX,circleY);
         seekers.update(this.getX(),this.getY());
         seekers.display();
-        seekers.updateRadius(this.breathe(smallest, largest));
-        if(keyPressed)
-        {
-            active=!active;
-            
-        }
-        println(active,this.isReady());
+        seekers.breathe(smallest,largest);
+       
+        //println(active,this.isReady());
 
         
 
     }
-    boolean isReady()
-    {   if(!active)
-        {
-            return(this.breathe(smallest, largest)==radius);
-        }
-        else
-        {
-            return false;
-        }
-        
-    }
-    int breathe(int smallest_, int largest_)
-    {
-        if(frameCount%6==0)
-        {
-            if(currentBreathe==0)
-            {
-                currentBreathe=radius;
-            }
-            if(shrinking && active)
-            {
-                if(currentBreathe>smallest_)
-                {
-                    currentBreathe--;
-                }
-                else 
-                {
-                    shrinking=!shrinking;
-                }
-            
-            }
-            if(!shrinking && active)
-            {
-                if(currentBreathe<largest_)
-                {
-                    currentBreathe++;
-                }
-                else
-                {
-                    shrinking=!shrinking;
-                }
-            }
-            if(!active)
-            {
-                if(currentBreathe<radius)
-                {
-                    currentBreathe++;
-                }
-                else if(currentBreathe>radius)
-                {
-                    currentBreathe--;
-                } 
-            }
-            
-        }
-        
-        return currentBreathe;
-    }
+
     int getX()
     {
         return xPos;

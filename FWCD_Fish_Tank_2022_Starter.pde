@@ -5,11 +5,11 @@ int SAND_HEIGHT = 120;
 
 void setup() {
   mhs = loadImage("capitol.jpg"); 
-  fullScreen();
+  size(1920,1080,P2D);
   mhs.resize(width, height-SAND_HEIGHT);
   smooth(8);
 
-  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2,int(10*PI),120,width/2,height/2,8);
+  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2,int(6*PI),100,width/2,height/2,15);
   //put your object in fish tank list named objs using the model below.
  // objs.add( new YOUROBJECT() );
   objs.add(test);
@@ -28,9 +28,10 @@ void draw() {
   drawTankBackground();                    
  
   PVector[] locations = new PVector[objs.size()];
-  for (int i=0; i<objs.size(); i++) {
-      AnimatedObject obj = objs.get(i);
-      locations[i] = new PVector(obj.getX(), obj.getY());
+  for (int i=0; i<objs.size(); i++) 
+  {
+    AnimatedObject obj = objs.get(i);
+    locations[i] = new PVector(obj.getX(), obj.getY());
   }
 
   for (AnimatedObject ao: objs) {
