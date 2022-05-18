@@ -55,6 +55,7 @@ class Seekers
             
            
             quick.updateRadius(quick.breathe(smallest_,largest_));
+            
         }
        
     }
