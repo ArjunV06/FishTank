@@ -16,7 +16,14 @@ void setup() {
   
   
 }
-
+/*int startTime=0;
+int currentTime=millis();
+if(currentTime-startTime>=3000)
+{
+  eatTime=!eatTime
+  startTime=millis();
+}
+*/
 
 //DO NOT CHANGE CODE BELOW!!!!!!!
 //DO NOT CHANGE CODE BELOW!!!!!!!
@@ -38,7 +45,7 @@ void draw() {
       ao.display();
       ao.move(locations);
       resetMatrix();           
-    }
+  }
   
 }
 
