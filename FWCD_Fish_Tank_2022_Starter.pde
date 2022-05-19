@@ -2,29 +2,31 @@ PImage mhs;
 ArrayList<AnimatedObject> objs = new ArrayList<AnimatedObject>();
 
 int SAND_HEIGHT = 120;
-
+PVector[] locations;
 void setup() {
   mhs = loadImage("capitol.jpg"); 
   size(1920,1080,P2D);
   mhs.resize(width, height-SAND_HEIGHT);
   smooth(8);
-
-  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2,int(6*PI),100,width/2,height/2,15);
+  DummyClass dum1 = new DummyClass(int(random(300,1600)),int(random(200,800)));
+  DummyClass dum2 = new DummyClass(int(random(300,1600)),int(random(200,800)));
+  DummyClass dum3 = new DummyClass(int(random(300,1600)),int(random(200,800)));
+  DummyClass dum4 = new DummyClass(int(random(300,1600)),int(random(200,800)));
+  DummyClass dum5 = new DummyClass(int(random(300,1600)),int(random(200,800)));
+  DummyClass dum6 = new DummyClass(int(random(300,1600)),int(random(200,800)));
+  ArjunVasudevanFish test = new ArjunVasudevanFish(width/2,height/2,int(6*PI),60,width/2,height/2,15);
   //put your object in fish tank list named objs using the model below.
  // objs.add( new YOUROBJECT() );
   objs.add(test);
+  objs.add(dum1);
+  objs.add(dum2);
+  objs.add(dum3);
+  objs.add(dum4);
+  objs.add(dum5);
+  objs.add(dum6);
   
   
 }
-/*int startTime=0;
-int currentTime=millis();
-if(currentTime-startTime>=3000)
-{
-  eatTime=!eatTime
-  startTime=millis();
-}
-*/
-
 //DO NOT CHANGE CODE BELOW!!!!!!!
 //DO NOT CHANGE CODE BELOW!!!!!!!
 //DO NOT CHANGE CODE BELOW!!!!!!!
@@ -33,8 +35,8 @@ if(currentTime-startTime>=3000)
 void draw() {
 
   drawTankBackground();                    
- 
-  PVector[] locations = new PVector[objs.size()];
+  //proposal to change
+  locations = new PVector[objs.size()];
   for (int i=0; i<objs.size(); i++) 
   {
     AnimatedObject obj = objs.get(i);
